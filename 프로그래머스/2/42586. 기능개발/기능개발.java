@@ -2,31 +2,28 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        ArrayDeque<Integer> deque = new ArrayDeque<>();
-        for(int i = 0; i < progresses.length; i++) {
-            deque.addLast(i);
+        // 1. 각 작업의 배포 가능일 계산
+        int[] leftDays = new int[progresses.length];
+        for(int i = 0; i < leftDays.length; i++) {
+            leftDays[i] = (int) Math.ceil((100.0 - progresses[i]) / speeds[i]);
         }
         
-        ArrayList<Integer> result = new ArrayList<>();
-        while(!deque.isEmpty()) {
-            int i = deque.pollFirst();
-            int released = 1;
-            int days = (100 - progresses[i]) % speeds[i] == 0? (100 - progresses[i]) / speeds[i] : (100 - progresses[i]) / speeds[i] + 1;
-            
-            while(!deque.isEmpty()) {
-                int next = deque.pollFirst();
-                if(progresses[next] + speeds[next] * days >= 100) {
-                    released++;
-                } else {
-                    deque.addFirst(next);
-                    break;
-                }
+        // 2. 배포될 작업 수
+        int count = 0;
+        int maxDay = leftDays[0]; // 가장 늦게 배포되는 날
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        for(int i = 0; i < leftDays.length; i++) {
+            if(leftDays[i] <= maxDay) { // 배포 예정일이 기준 배포일보다 빠름. 먼저 완료됨.
+                count++;
+            } else { // 배포 예정일이 기준 배포일보다 느림.
+                answer.add(count);
+                count = 1;
+                maxDay = leftDays[i];
             }
-            
-            result.add(released);
         }
         
-        
-        return result.stream().mapToInt(i->i).toArray();
+        answer.add(count);
+        return answer.stream().mapToInt(i->i).toArray();
     }
 }
