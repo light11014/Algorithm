@@ -2,18 +2,21 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < N; i++) {
-            int[] input = Arrays.stream(br.readLine().split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            int room = (int)Math.ceil((double)input[2] / input[0]);
-            int floor = input[2] % input[0];
-            System.out.println((floor == 0? input[0] : floor) * 100 + room);
+        for (int i = 0; i < T; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int H = Integer.parseInt(st.nextToken());
+            int W = Integer.parseInt(st.nextToken()); 
+            int N = Integer.parseInt(st.nextToken()); 
+
+            int floor = N % H == 0 ? H : N % H;
+            int room = (N + H - 1) / H; 
+
+            System.out.println(floor * 100 + room);
         }
     }
 }
