@@ -1,6 +1,8 @@
 import java.io.*;
 
 public class Main {
+    static int[][] dp = new int[15][15];
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
@@ -12,15 +14,12 @@ public class Main {
             System.out.println(calculatePeople(k, n));
         }
     }
-    private static int calculatePeople(int a, int b) {
-        if(a == 0) return b;
-        else if(b == 1) return 1;
-        else {
-            int people = 0;
-            for(int i = 1; i <= b; i++) {
-                people += calculatePeople(a - 1, i);
-            }
-            return people;
-        }
+    private static int calculatePeople(int k, int n) {
+        if(dp[k][n] != 0) return dp[k][n];
+
+        if(k == 0) return dp[k][n] = n;
+        if(n == 1) return dp[k][n] = 1;
+
+        return dp[k][n] = calculatePeople(k, n - 1) + calculatePeople(k - 1, n);
     }
 }
