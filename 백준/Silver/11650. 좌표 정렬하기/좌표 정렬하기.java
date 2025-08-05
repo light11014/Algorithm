@@ -2,43 +2,27 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class P {
-        int x;
-        int y;
-
-        public P(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        @Override
-        public String toString() {
-            return this.x + " " + this.y;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         int N = Integer.parseInt(br.readLine());
-        List<P> list = new ArrayList<>();
+        int[][] arr = new int[N][2];
 
         for(int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            list.add(new P(x, y));
+            arr[i][0] = Integer.parseInt(st.nextToken());
+            arr[i][1] = Integer.parseInt(st.nextToken());
         }
 
-        list.sort(Comparator.comparing(P::getX).thenComparing(P::getY));
-        list.forEach(System.out::println);
+        Arrays.sort(arr, (a, b) -> {
+            if (a[0] == b[0]) return Integer.compare(a[1], b[1]);
+            return Integer.compare(a[0], b[0]);
+        });
+
+        StringBuilder sb = new StringBuilder();
+        for (int[] p : arr) {
+            sb.append(p[0]).append(' ').append(p[1]).append('\n');
+        }
+        System.out.print(sb);
     }
 }
