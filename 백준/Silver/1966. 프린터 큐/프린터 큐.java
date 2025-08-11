@@ -2,48 +2,48 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static class Doc {
+        int idx, pr;
+        Doc(int idx, int pr) {
+            this.idx = idx;
+            this.pr = pr;
+        }
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-        StringTokenizer st;
 
-        for(int i = 0; i < T; i++) {
-            st = new StringTokenizer(br.readLine());
+        while(T-- > 0) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
             int N = Integer.parseInt(st.nextToken());
             int M = Integer.parseInt(st.nextToken());
 
-            int[] priorities = new int[N];
+            Deque<Doc> queue = new ArrayDeque<>();
+            PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
             st = new StringTokenizer(br.readLine());
-            for(int p = 0; p < N; p++) {
-                priorities[p] = Integer.parseInt(st.nextToken());
-                queue.add(p);
+            for(int i = 0; i < N; i++) {
+                int p = Integer.parseInt(st.nextToken());
+                pq.add(p);
+                queue.addLast(new Doc(i, p));
             }
 
-            int answer = 0;
-            while(!queue.isEmpty()) {
-                int front = queue.poll();
-                if(isMaximum(priorities, front)) {
-                    answer++;
-                    priorities[front] = -1;
-                    if(front == M) {
-                        System.out.println(answer);
+            int printed = 0;
+            while (!queue.isEmpty()) {
+                Doc cur = queue.pollFirst();
+                if (cur.pr == pq.peek()) {
+                    pq.poll();
+                    printed++;
+                    if(cur.idx == M) {
+                        sb.append(printed).append('\n');
                         break;
                     }
                 } else {
-                    queue.add(front);
+                    queue.addLast(cur);
                 }
             }
-            queue.clear();
         }
-    }
-
-    private static boolean isMaximum(int[] arr, int num) {
-        for (int j : arr) {
-            if (arr[num] < j) {
-                return false;
-            }
-        }
-        return true;
+        System.out.println(sb);
     }
 }
