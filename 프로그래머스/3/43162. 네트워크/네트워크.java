@@ -1,6 +1,6 @@
 class Solution {
-    private static boolean[] visited;
     private static int[][] computer;
+    private static boolean[] visited;
     
     private static void dfs(int now) {
         visited[now] = true;
@@ -16,7 +16,7 @@ class Solution {
         computer = computers;
         visited = new boolean[n];
         
-        for(int i=0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             if(!visited[i]) {
                 dfs(i);
                 answer++;
