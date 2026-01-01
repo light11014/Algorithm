@@ -15,7 +15,7 @@ public class Main {
 
         Arrays.sort(arr);
 
-        int answer = 0;
+        long answer = 0;
         for(int i = 0; i < N; i++) {
             answer += arr[i] * (N - i);
         }
