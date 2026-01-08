@@ -37,16 +37,16 @@ public class Main {
         while(!stack.isEmpty()) {
             // 현재 방문
             int cur = stack.pop();
-            answer++;
 
             for(int next : graph.get(cur)) {
                 if(!visited[next]) {
                     stack.push(next);
-                    visited[next] = true;
+                    visited[next] = true; // 스택에 넣는 순간 true (예약 처리되 노드)
+                    answer++;
                 }
             }
         }
 
-        System.out.println(answer-1);
+        System.out.println(answer);
     }
 }
