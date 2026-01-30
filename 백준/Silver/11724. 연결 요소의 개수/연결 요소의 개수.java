@@ -26,11 +26,12 @@ public class Main {
         int count = 0;
 
         for (int i = 1; i < N + 1; i++) {
-            if (!visited[i]) {
-                queue.add(i);
-                visited[i] = true;
-                count++;
-            }
+            if(visited[i]) continue;
+
+            queue.add(i);
+            visited[i] = true;
+            count++;
+
             while(!queue.isEmpty()) {
                 int cur = queue.poll();
 
@@ -42,7 +43,6 @@ public class Main {
                 }
             }
         }
-
         System.out.println(count);
     }
 }
