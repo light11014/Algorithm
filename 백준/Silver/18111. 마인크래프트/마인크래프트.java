@@ -12,6 +12,7 @@ public class Main {
         int[][] map = new int[N][M];
         int minH = 256;
         int maxH = 0;
+
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
@@ -21,28 +22,34 @@ public class Main {
             }
         }
 
-        int time = Integer.MAX_VALUE;
-        int height = 0;
+        int bestTime = Integer.MAX_VALUE;
+        int bestHeight = 0;
+
         for (int h = minH; h <= maxH; h++) {
-            int remove = 0;
-            int put = 0;
+            int removed = 0;
+            int needed = 0;
+
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
-                    if(map[i][j] > h) {
-                        remove += map[i][j] - h;
-                    } else if(map[i][j] < h){
-                        put += h - map[i][j];
-                    }
+                    int diff = map[i][j] - h;
+
+                    if(diff > 0)
+                        removed += diff; // 남으면 제거
+                    else if(diff < 0)
+                        needed -= diff; // 부족하면 추가
                 }
             }
 
-            if(B + remove - put < 0)
+            if(B + removed < needed)
                 continue;
-            else if(time >= remove * 2 + put){
-                time = remove * 2 + put;
-                height = h;
+
+            int curTime = removed * 2 + needed;
+
+            if (curTime <= bestTime) {
+                bestTime = curTime;
+                bestHeight = h;
             }
         }
-        System.out.println(time + " " + height);
+        System.out.println(bestTime + " " + bestHeight);
     }
 }
