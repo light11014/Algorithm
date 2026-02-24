@@ -11,30 +11,25 @@ public class Main {
         String S = br.readLine();
 
         int answer = 0;
+        int count = 0;
 
-        for (int i = 0; i < M - 2 * N; i++) {
-            if(S.charAt(i) == 'O') continue;
+        for (int i = 1; i < M-1; i++) {
+            if(S.charAt(i - 1) == 'I'
+                && S.charAt(i) == 'O'
+                    && S.charAt(i + 1) == 'I') {
 
-            if(containsP(S, i, 2 * N + 1)) {
-                answer++;
+                count++;
+                i++;
+
+                if (count >= N) {
+                    answer++;
+                }
+            } else {
+                count = 0;
             }
         }
 
         System.out.println(answer);
     }
 
-    private static boolean containsP(String s, int start, int length) {
-        char prev = 'I';
-
-        for(int i = 1; i < length; i++) {
-            char cur = s.charAt(start+i);
-
-            if(cur == prev)
-                return false;
-
-            prev = cur;
-        }
-
-        return true;
-    }
 }
