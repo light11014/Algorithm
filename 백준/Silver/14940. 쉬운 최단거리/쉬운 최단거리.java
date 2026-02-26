@@ -10,8 +10,6 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        int[][] matrix = new int[N][M];
-
         int[] goal = null;
         int[][] dist = new int[N][M];
 
@@ -20,7 +18,6 @@ public class Main {
 
             for(int j = 0; j < M; j++) {
                 int num = Integer.parseInt(st.nextToken());
-                matrix[i][j] = num;
 
                 if(num == 2) {
                     goal = new int[]{i, j};
