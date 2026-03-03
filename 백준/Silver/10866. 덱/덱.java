@@ -9,59 +9,57 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
 
         Deque deque = new Deque();
+        StringBuilder sb = new StringBuilder();
         while(N-- > 0) {
             String input = br.readLine();
 
-            if(input.contains("push_front")) {
+            if(input.startsWith("push_front")) {
                 deque.pushFront(Integer.parseInt(input.substring(11)));
-            } else if(input.contains("push_back")) {
+            } else if(input.startsWith("push_back")) {
                 deque.pushBack(Integer.parseInt(input.substring(10)));
             } else if(input.equals("pop_front")) {
-                System.out.println(deque.popFront());
+                sb.append(deque.popFront()).append("\n");
             } else if(input.equals("pop_back")) {
-                System.out.println(deque.popBack());
+                sb.append(deque.popBack()).append("\n");
             } else if(input.equals("size")) {
-                System.out.println(deque.size());
+                sb.append(deque.size()).append("\n");
             } else if(input.equals("empty")) {
-                System.out.println(deque.empty());
+                sb.append(deque.empty()).append("\n");
             } else if(input.equals("front")) {
-                System.out.println(deque.front());
+                sb.append(deque.front()).append("\n");
             } else if(input.equals("back")) {
-                System.out.println(deque.back());
+                sb.append(deque.back()).append("\n");
             }
         }
+
+        System.out.println(sb);
     }
 
     static class Deque {
-        static int SIZE = 10000;
-        int[] arr = new int[SIZE];
-        int front = 0;
-        int back = 1;
+        int[] arr = new int[20000];
+        int front = 10000;
+        int back = 10000;
 
         public void pushFront(int x) {
-            arr[front] = x;
-            front = (front - 1 + SIZE) % SIZE;
+            arr[--front] = x;
         }
 
         public void pushBack(int x) {
-            arr[back] = x;
-            back = (back + 1) % SIZE;
+            arr[back++] = x;
         }
 
         public int popFront() {
             if(size() == 0) return -1;
-            front = (front + 1) % SIZE;
-            return arr[front];
+            return arr[front++];
         }
 
         public int popBack() {
             if(size() == 0) return -1;
-            back = (back - 1 + SIZE) % SIZE;
-            return arr[back];
+            return arr[--back];
         }
 
         public int size() {
-            return (back - front - 1 + SIZE) % SIZE;
+            return back - front;
         }
 
         public int empty() {
@@ -69,14 +67,11 @@ public class Main {
         }
 
         public int front() {
-            return size() == 0? -1 : arr[(front+1)%SIZE];
+            return size() == 0? -1 : arr[front];
         }
 
         public int back() {
-            return size() == 0? -1 : arr[(back-1 + SIZE)%SIZE];
+            return size() == 0? -1 : arr[back-1];
         }
-
-
     }
-
 }
