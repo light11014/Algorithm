@@ -7,25 +7,24 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        Deque<Integer> deque = new ArrayDeque<>();
+        Deque<int[]> deque = new ArrayDeque<>();
 
         HashMap<Integer, Integer> balloons = new HashMap<>();
 
         for(int i = 1; i <= N; i++) {
-            deque.addLast(i);
-            balloons.put(i, Integer.parseInt(st.nextToken()));
+            deque.addLast(new int[]{i, Integer.parseInt(st.nextToken())});
         }
 
         StringBuilder answer = new StringBuilder();
 
         while(deque.size() > 1) {
             // 첫번째 풍선 꺼내기
-            int ballon = deque.pollFirst();
-            int k = balloons.get(ballon);
-            answer.append(ballon).append(" ");
+            int[] balloon = deque.pollFirst();
+            int index = balloon[0];
+            int k = balloon[1];
+            answer.append(index).append(" ");
 
             if(k > 0) {
                 // 양수면 앞에서 (k-1) 번 빼고 뒤에서 넣기
@@ -40,7 +39,7 @@ public class Main {
             }
         }
 
-        answer.append(deque.pollFirst());
+        answer.append(deque.pollFirst()[0]);
         System.out.println(answer);
     }
 
