@@ -10,7 +10,7 @@ public class Main {
 
         String expression = br.readLine();
 
-        Double[] operands = new Double[N];
+        double[] operands = new double[N];
         for(int i = 0; i < N; i++) {
             operands[i] = Double.parseDouble(br.readLine());
         }
@@ -21,8 +21,8 @@ public class Main {
             if(op >= 'A' && op <= 'Z') {
                 stack.push(operands[op-'A']);
             } else {
-                Double op2 = stack.pop();
-                Double op1 = stack.pop();
+                double op2 = stack.pop();
+                double op1 = stack.pop();
 
                 switch (op) {
                     case '+': stack.push(op1 + op2); break;
