@@ -17,13 +17,14 @@ public class Main {
             if(c == '(') {
                 count++;
             } else { // ')' 일때,
+                count--;
+                
                 if(input.charAt(i-1) == '(') {
                     // 이전게 '(' 였음 => 레이저
-                    answer += --count;
+                    answer += count;
 
                 } else { // 아니면 쇠막대기
                     answer++;
-                    count--;
                 }
             }
         }
