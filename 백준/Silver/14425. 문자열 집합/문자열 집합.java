@@ -21,9 +21,6 @@ public class Main {
         for(int i = 0; i < M; i++) {
             if(set.contains(br.readLine()))
                 answer++;
-
-            if(answer == N)
-                break;
         }
 
         System.out.println(answer);
