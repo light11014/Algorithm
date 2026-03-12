@@ -25,7 +25,7 @@ public class Main {
                 answer += B;
                 tired += A;
             } else {
-                tired = (tired < C)? 0 : tired - C;
+                tired = Math.max(0, tired - C);
             }
         }
 
