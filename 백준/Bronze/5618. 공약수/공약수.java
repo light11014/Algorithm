@@ -3,35 +3,32 @@ import java.util.*;
 
 public class Main {
 
+    static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int[] nums = new int[N];
-
-        for(int i = 0; i < N; i++) {
-            nums[i] = Integer.parseInt(st.nextToken());
+        int g = Integer.parseInt(st.nextToken());
+        for(int i = 1; i < N; i++) {
+            g = gcd(g, Integer.parseInt(st.nextToken()));
         }
 
-        Arrays.sort(nums);
-        System.out.println(1);
-
-        for(int i = 2; i <= nums[0]; i++) {
-            boolean answer = true;
-
-            for(int j = 0; j < N; j++) {
-                if(nums[j] % i != 0) {
-                    answer = false;
-                    break;
-                }
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i * i <= g; i++) {
+            if (g % i == 0) {
+                list.add(i);
+                if (i != g / i) list.add(g / i);
             }
-
-            if(answer)
-                System.out.println(i);
         }
+
+        Collections.sort(list);
+        for(int x : list)
+            System.out.println(x);
     }
 
 }
