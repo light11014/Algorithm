@@ -2,31 +2,27 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int answer = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-
-        int newNum = N;
+        
+        int answer = 0;
+        int current = N;
 
         do {
-            newNum = makeNewNumber(newNum);
-        } while(newNum != N);
+            current = nextNumber(current);
+            answer++;
+        } while(current != N);
 
         System.out.println(answer);
     }
 
-    static int makeNewNumber(int pre) {
-        answer++;
-        if(pre < 10) {
-            return pre * 10 + pre;
-        }
+    static int nextNumber(int pre) {
+        int tens = pre / 10;
+        int ones = pre % 10;
 
-        int a = pre / 10;
-        int b = pre % 10;
-
-        return b * 10 + (a + b) % 10;
+        return ones * 10 + (tens + ones) % 10;
     }
 
 }
