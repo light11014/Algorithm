@@ -14,11 +14,11 @@ public class Main {
         while(N-- > 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
 
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            long a = Long.parseLong(st.nextToken());
+            long b = Long.parseLong(st.nextToken());
 
             long gcd = gcd(a, b);
-            long lcm = (long) a * b / gcd;
+            long lcm = a / gcd * b;
 
             System.out.println(lcm);
         }
