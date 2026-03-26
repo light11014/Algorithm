@@ -39,7 +39,7 @@ public class Main {
 
                BigInteger B = new BigInteger(b, j);
 
-               if (A.equals(B)) {
+               if (A.equals(B) && A.compareTo(BigInteger.ONE.shiftLeft(63)) < 0) {
                    count++;
                    answer = A;
                    aRadix = i;
