@@ -25,8 +25,6 @@ public class Main {
         // 위, 아래, 좌, 우, 앞, 뒤
         int[] dice = new int[6];
 
-        dice[1] = map[x][y];
-
         st = new StringTokenizer(br.readLine());
 
         int[] dx = {0, 0, -1, 1};
