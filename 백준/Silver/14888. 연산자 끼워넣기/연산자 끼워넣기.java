@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int[] A;
+    static int N;
+    static int max = (-1) * Integer.MAX_VALUE;
+    static int min = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+
+        A = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            A[i] = Integer.parseInt(st.nextToken());
+        }
+
+        st = new StringTokenizer(br.readLine());
+
+        int plus = Integer.parseInt(st.nextToken());
+        int minus = Integer.parseInt(st.nextToken());
+        int mul = Integer.parseInt(st.nextToken());
+        int div = Integer.parseInt(st.nextToken());
+
+        dfs(1, A[0], plus, minus, mul, div);
+
+        System.out.println(max);
+        System.out.println(min);
+    }
+
+    private static void dfs(int idx, int current, int p, int m, int mul, int div) {
+        if(idx == N) {
+            max = Math.max(max, current);
+            min = Math.min(min, current);
+            return;
+        }
+
+        if(p > 0)
+            dfs(idx + 1, current + A[idx], p - 1, m, mul, div);
+        if(m > 0)
+            dfs(idx + 1, current - A[idx], p, m - 1, mul, div);
+        if(mul > 0)
+            dfs(idx + 1, current * A[idx], p, m, mul - 1, div);
+        if(div > 0)
+            dfs(idx + 1, current / A[idx], p, m, mul, div - 1);
+    }
+}
