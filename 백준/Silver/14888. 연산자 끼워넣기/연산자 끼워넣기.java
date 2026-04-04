@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
     static int[] A;
     static int N;
-    static int max = (-1) * Integer.MAX_VALUE;
+    static int max = Integer.MIN_VALUE;
     static int min = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
