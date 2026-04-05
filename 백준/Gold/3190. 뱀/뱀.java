@@ -6,6 +6,9 @@ public class Main {
     static int[][] board;
     static Deque<Point> snake;
 
+    static int[] dx = {0, 1, 0, -1};
+    static int[] dy = {1, 0, -1, 0};
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -14,13 +17,11 @@ public class Main {
 
         board = new int[N+1][N+1];
 
-
         // 사과: 2
         while(K-- > 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int i = Integer.parseInt(st.nextToken());
             int j = Integer.parseInt(st.nextToken());
-
             board[i][j] = 2;
         }
 
@@ -29,37 +30,33 @@ public class Main {
         Map<Integer, Integer> dirMap = new HashMap<>();
         while(L-- > 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-
             int second = Integer.parseInt(st.nextToken());
             int dir = st.nextToken().equals("L")? -1 : 1;
-
             dirMap.put(second, dir);
         }
 
         snake = new ArrayDeque<>();
         snake.add(new Point(1, 1));
+        board[1][1] = 1;
 
         int dir = 0;
-
         int count = 0;
-        while(true) {
-            // 방향 확인
-            dir = (dir + dirMap.getOrDefault(count, 0) + 4) % 4;
 
-            // 방향쪽으로 한칸 이동
-            if(move(dir)) {
-                count++;
-            } else {
+        while(true) {
+            if(!move(dir)) {
                 System.out.println(count + 1);
                 return;
             }
+
+            count++;
+
+            // X초가 끝난 뒤 방향 전환
+            dir = (dir + dirMap.getOrDefault(count, 0) + 4) % 4;
+
         }
     }
 
     private static boolean move(int dir) {
-        int[] dx = {0, 1, 0, -1};
-        int[] dy = {1, 0, -1, 0};
-
         if(snake.isEmpty()) return false;
 
         // 머리
