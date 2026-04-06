@@ -24,70 +24,45 @@ public class Main {
 
         int answer = 0;
         for(int i = 0; i < N; i++) {
-            if(checkVertical(i)) answer++;
-            if(checkHorizontal(i)) answer++;
+            int[] row = new int[N];
+            int[] col = new int[N];
+
+            for(int j = 0; j < N; j++) {
+                row[j] = map[i][j];
+                col[j] = map[j][i];
+            }
+
+            if (checkLine(row)) answer++;
+            if (checkLine(col)) answer++;
         }
 
         System.out.println(answer);
     }
 
-    private static boolean checkHorizontal(int r) {
-        int height = map[r][0];
+    private static boolean checkLine(int[] line) {
+        int height = line[0];
         int count = 1;
 
         for(int i = 1; i < N; i++) {
-            int next = map[r][i];
+            int next = line[i];
 
             if(height == next) {
                 // 같으면 통과
                 count++;
+            } else if(next == height + 1) {
+                // 오르막
+                if(count < L) return false;
+                height = next;
+                count = 1;
             } else if(next == height - 1) {
-                // 기준 높이보다 낮음
+                // 내리막
                 for(int l = 1; l < L; l++) {
-                    if(i + l >= N) return false;
-                    if(map[r][i+l] != next) return false;
+                    if(i + l >= N || line[i+ l] != next) return false;
                 }
                 count = 0;
                 height = next;
                 i += L - 1;
-            } else if(next == height + 1) {
-                // 기준 높이보다 높음
-                if(count < L) return false;
-                count = 1;
-                height = next;
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean checkVertical(int c) {
-        int height = map[0][c];
-        int count = 1;
-
-        for(int i = 1; i < N; i++) {
-            int next = map[i][c];
-
-            if(height == next) {
-                // 같으면 통과
-                count++;
-            } else if(next == height - 1) {
-                // 기준 높이보다 낮음
-                for(int l = 1; l < L; l++) {
-                    if(i + l >= N) return false;
-                    if(map[i+l][c] != next) return false;
-                }
-                count = 0;
-                height = next;
-                i += L - 1;
-            } else if(next == height + 1) {
-                // 기준 높이보다 높음
-                if(count < L) return false;
-                count = 1;
-                height = next;
-            } else {
+            }  else {
                 return false;
             }
         }
