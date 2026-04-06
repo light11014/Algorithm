@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static int N, M;
     static int[][] room;
-    static int N;
-    static int M;
+    static boolean[][] cleaned;
 
     // 북 / 동 / 남 / 서
     static int[] dr= {-1, 0, 1, 0};
@@ -17,71 +17,60 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        room = new int[N][M];
-
         st = new StringTokenizer(br.readLine());
-
         int r = Integer.parseInt(st.nextToken());
         int c = Integer.parseInt(st.nextToken());
         int dir = Integer.parseInt(st.nextToken());
 
+        room = new int[N][M];
+        cleaned = new boolean[N][M];
+
         for(int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-
             for(int j = 0; j < M; j++) {
                 room[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        Queue<Point> queue = new ArrayDeque<>();
-        queue.add(new Point(r, c));
-        boolean[][] cleaned = new boolean[N][M];
+        int answer = 0;
 
-        int answer = 1;
-        cleaned[r][c] = true;
+        while(true) {
+            // 1. 현재칸이 청소 안됨 -> 청소
+            if(!cleaned[r][c]) {
+                cleaned[r][c] = true;
+                answer++;
+            }
 
-        while(!queue.isEmpty()) {
-            Point cur = queue.poll();
+            boolean moved = false;
 
-            // 3번: 4칸 중 청소되지 않은 빈칸 존재
+            // 3. 4칸 중 청소되지 않은 빈칸 존재
             for(int i = 0; i < 4; i++) {
                 // 반시계 방향 회전
                 dir = (dir + 3) % 4;
 
-                int nr = cur.r + dr[dir];
-                int nc = cur.c + dc[dir];
-                
-                if(nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
-                if(cleaned[nr][nc] || room[nr][nc] == 1) continue;
-                
-                // 청소
-                answer++;
-                queue.add(new Point(nr, nc));
-                cleaned[nr][nc] = true;
-                break;
+                int nr = r + dr[dir];
+                int nc = c + dc[dir];
+
+                if(room[nr][nc] == 0 && !cleaned[nr][nc]) {
+                    r = nr;
+                    c = nc;
+                    moved = true;
+                    break;
+                };
             }
 
-            // 2번: 청소된 칸 없음 -> 후진
-            if(queue.isEmpty()) {
-                int nr = cur.r - dr[dir];
-                int nc = cur.c - dc[dir];
+            // 2. 청소된 칸 없음 -> 후진
+            if(!moved) {
+                int nr = r - dr[dir];
+                int nc = c - dc[dir];
 
-                if(nr < 0 || nr >= N || nc < 0 || nc >= M || room[nr][nc] == 1) break;
+                if(room[nr][nc] == 1) break;
 
-                queue.add(new Point(nr, nc));
+                r = nr;
+                c = nc;
             }
         }
 
         System.out.println(answer);
-
-    }
-
-    static class Point {
-        int r, c;
-
-        public Point(int r, int c) {
-            this.r=r;
-            this.c=c;
-        }
     }
 }
