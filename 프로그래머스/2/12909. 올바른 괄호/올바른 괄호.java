@@ -1,19 +1,17 @@
-import java.util.*;
-
 class Solution {
     boolean solution(String s) {
-        ArrayDeque<Character> stack = new ArrayDeque<>();
+        int open = 0;
         
         for(char c : s.toCharArray()) {
             if(c == '(') {
-                stack.push(c);
+                open++;
+            } else if(c == ')' && open > 0) {
+                open--;
             } else {
-                if(stack.isEmpty() || stack.pop() == c) {
-                    return false;
-                }
+                return false;
             }
         }
 
-        return stack.isEmpty();
+        return open == 0;
     }
 }
