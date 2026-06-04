@@ -1,56 +1,45 @@
 import java.util.*;
 
 class Solution {
-    private static int[] rx = {0, 0, 1, -1};
-    private static int[] ry = {1, -1, 0, 0};
-    
-    private static class Node {
-        int r;
-        int c;
-
-        public Node(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+    static int N, M;
+    static int[][] dist;
     
     public int solution(int[][] maps) {
-        int N = maps.length;
-        int M = maps[0].length;
+        N = maps.length;
+        M = maps[0].length;
         
-        // 최단거리 저장
-        int[][] dist = new int[N][M];
+        dist = new int[N][M];
         
-        // bfs를 위한 큐
-        ArrayDeque<Node> queue = new ArrayDeque<>();
-        
-        // 시작 저점
-        queue.addLast(new Node(0, 0));
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{0, 0});
         dist[0][0] = 1;
         
         while(!queue.isEmpty()) {
-            Node now = queue.pollFirst();
+            int[] cur = queue.poll();
             
             for(int i = 0; i < 4; i++) {
-                int nr = now.r + rx[i];
-                int nc = now.c + ry[i];
+                int nx = cur[0] + dx[i];
+                int ny = cur[1] + dy[i];
                 
-                // 맵 밖 예외
-                if(nr < 0 || nc < 0 || nr >= N || nc >= M)
-                    continue;
+                if(!isRange(nx, ny) || maps[nx][ny] == 0 
+                        || dist[nx][ny] != 0) continue;
                 
-                // 벽 예외
-                if(maps[nr][nc] == 0)
-                    continue;
+                dist[nx][ny] = dist[cur[0]][cur[1]] + 1;
                 
-                // 처음 가는 경우만 계산
-                if(dist[nr][nc] == 0) {
-                    queue.addLast(new Node(nr, nc));
-                    dist[nr][nc] = dist[now.r][now.c] + 1;
-                }
+                if(nx == N - 1 && ny == M - 1)
+                    return dist[nx][ny];
+                
+                
+                queue.add(new int[]{nx, ny});
             }
         }
-        return dist[N - 1][M - 1] == 0? -1 : dist[N - 1][M - 1];
+
+        return -1;
+    }
+    
+    static private boolean isRange(int x, int y) {
+        return 0 <= x && x < N && 0 <= y && y < M;
     }
 }
-
