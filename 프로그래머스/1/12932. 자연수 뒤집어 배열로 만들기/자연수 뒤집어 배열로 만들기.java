@@ -2,14 +2,13 @@ import java.util.*;
 
 class Solution {
     public int[] solution(long n) {
-        ArrayList<Integer> answer = new ArrayList<>();
+        String str = n + "";
+        int[] answer = new int[str.length()];
         
-        long l = n;
-        while(l > 0) {
-            answer.add((int)(l%10));
-            l /= 10L;
+        for(int i = 0; i < answer.length; i++) {
+            answer[i] = str.charAt(answer.length - 1 - i) - '0';
         }
         
-        return answer.stream().mapToInt(i->i).toArray();
+        return answer;
     }
 }
