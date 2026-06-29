@@ -2,17 +2,23 @@ import java.util.*;
 
 class Solution {
     public long solution(long n) {
-        long answer = 0;
+        List<Integer> list = new ArrayList<>();
         
-        String[] digits = String.valueOf(n).split("");
-        
-        Arrays.sort(digits, Collections.reverseOrder());
-        
-        for(int i=0; i<digits.length; i++) {
-            answer *= 10;
-            answer += Integer.parseInt(digits[i]);
+        while(n > 0) {
+            list.add((int)(n % 10));
+            n /= 10;
         }
         
+        list.sort((a, b) -> a - b);
+        
+        long answer = 0;
+        
+        for(int i = list.size() - 1; i >= 0; i--) {
+            answer += list.get(i);
+            
+            if(i != 0)
+                answer *= 10;
+        }
         
         return answer;
     }
