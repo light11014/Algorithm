@@ -2,10 +2,19 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] numbers) {
-        int sum = 45;
-        for(int num : numbers) {
-            sum -= num;
+        boolean[] num = new boolean[10];
+        
+        for(int number : numbers) {
+            num[number] = true;
         }
-        return sum;
+        
+        int answer = 0;
+        for(int i = 0; i < num.length; i++) {
+            if(!num[i]) {
+                answer += i;
+            }
+        }
+        
+        return answer;
     }
 }
