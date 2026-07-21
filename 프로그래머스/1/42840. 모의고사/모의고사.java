@@ -8,22 +8,28 @@ class Solution {
             {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
         };
         
-        int[] correct = new int[3];
+        int[] collect = new int[3];
         
-        for(int i = 0; i<answers.length; i++) {
-            for(int j = 0; j<correct.length; j++) {
-                if(answers[i] == pattern[j][i%pattern[j].length])
-                    correct[j]++;
-            } 
-        }
-        
-        ArrayList<Integer> answer = new ArrayList<>();
-        int max = Math.max(correct[0], Math.max(correct[1], correct[2]));
-        for(int i=0; i<correct.length; i++) {
-            if(correct[i] == max) {
-                answer.add(i+1);
+        for(int i = 0; i < answers.length; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(pattern[j][i % pattern[j].length] == answers[i]) {
+                    collect[j]++;
+                }
             }
         }
-        return answer.stream().mapToInt(i->i).toArray();
+        
+        List<Integer> list = new ArrayList<>();
+        
+        int max = Math.max(collect[0], Math.max(collect[1], collect[2]));
+        
+        for(int i = 0; i < collect.length; i++) {
+            if(collect[i] == max) {
+                list.add(i + 1);
+            }
+        }
+        
+        return list.stream()
+                    .mapToInt(Integer::intValue)
+                    .toArray();
     }
 }
