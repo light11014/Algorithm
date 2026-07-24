@@ -1,28 +1,29 @@
 class Solution {
-    static int answer = 0;
-    static int[] nums;
-    
     public int solution(int[] nums) {
-        this.nums = nums;
-        combine(0, 0, 0);
+        int answer = 0;
+
+        for(int i = 0; i < nums.length - 2; i++) {
+            for(int j = i + 1; j < nums.length - 1; j++) {
+                for(int k = j + 1; k < nums.length; k++) {
+                    if(isPrime(nums[i] + nums[j] + nums[k])) {
+                        answer++;
+                    }
+                }
+            }
+        }
+
         return answer;
     }
     
-    private int isPrimeNumber(int num) {
-        for(int i = 2; i * i <= num; i++) {
-            if(num % i == 0) return 0;
-        }
-        return 1;
-    }
-    
-    private void combine(int depth, int start, int sum) {
-        if(depth == 3) {
-            answer += isPrimeNumber(sum); 
-            return;
+    private boolean isPrime(int num) {
+        if(num == 1) return false;
+        
+        for(int i = 2; i <= num / i; i++) {
+            if(num % i == 0) {
+                return false;
+            }
         }
         
-        for(int i = start; i < nums.length; i++) {
-            combine(depth+1, i+1, sum + nums[i]);
-        }
+        return true;
     }
 }
