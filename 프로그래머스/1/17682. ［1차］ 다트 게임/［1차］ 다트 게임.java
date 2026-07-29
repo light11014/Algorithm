@@ -1,51 +1,49 @@
 class Solution {
     public int solution(String dartResult) {
         int[] scores = new int[3];
+        int index = 0;
         
-        for(int i = 0, t = 0; t < 3; t++) {
-            char c = dartResult.charAt(i++);
-            
+        for(int turn = 0; turn < 3; turn++) {
             // 점수
-            int score = c - '0';
-            if(c == '1' && dartResult.charAt(i) == '0') {
+            int score;
+            if(dartResult.charAt(index) == '1' 
+               && dartResult.charAt(index + 1) == '0') {
                 score = 10;
-                i++;
+                index += 2;
+            } else {
+                score = dartResult.charAt(index) - '0';
+                index++;
             }
             
             // 보너스
-            c = dartResult.charAt(i++);
+            char bonus = dartResult.charAt(index++);
             
-            if(c == 'S') {
-                scores[t] = score;
-            } else if(c == 'D') {
-                scores[t] = score * score;
-            } else if(c == 'T') {
-                scores[t] = score * score * score;
+            if(bonus == 'S') {
+                scores[turn] = score;
+            } else if(bonus == 'D') {
+                scores[turn] = score * score;
+            } else if(bonus == 'T') {
+                scores[turn] = score * score * score;
             }
             
             // 옵션
-            if(i == dartResult.length()) 
-                break;
-            
-            c = dartResult.charAt(i++);
-            
-            if(c == '*') {
-                if(t != 0) 
-                    scores[t-1] *= 2;
-                scores[t] *= 2;
-            } else if(c == '#') {
-                scores[t] *= -1;
-            } else {
-                i--;
+            if(index < dartResult.length()) {
+                char option = dartResult.charAt(index);
+                
+                if(option == '*') {
+                    scores[turn] *= 2;
+                    
+                    if(turn > 0) 
+                        scores[turn - 1] *= 2;
+                    
+                    index++;
+                } else if(option == '#') {
+                    scores[turn] *= -1;
+                    index++;
+                } 
             }
         }
-        
-        int totalScore = 0;
-        
-        for(int score : scores) {
-            totalScore += score;
-        }
-        
-        return totalScore;
+
+        return scores[0] + scores[1] + scores[2];
     }
 }
