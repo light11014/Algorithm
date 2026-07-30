@@ -2,32 +2,31 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        boolean[] students = new boolean[n + 1];
-        Arrays.fill(students, true);
+        int[] clothes = new int[n + 1];
         
-        for(int i : lost) {
-            students[i] = false;
+        for(int index : lost) {
+            clothes[index]--;
         }
         
-        Arrays.sort(reserve);
-        for(int i = 0; i < reserve.length; i++) {
-            if(!students[reserve[i]]) {
-                students[reserve[i]] = true;
-                reserve[i] = -1;
-            }
+        for(int index : reserve) {
+            clothes[index]++;
         }
         
-        for(int i = 0; i < reserve.length; i++) {
-            if(reserve[i] - 1 >= 1 && !students[reserve[i] - 1]) {
-                students[reserve[i] - 1] = true;
-            } else if(reserve[i] + 1 <= n && !students[reserve[i] + 1]) {
-                students[reserve[i] + 1] = true;
+        for(int i = 1; i <= n; i++) {
+            if(clothes[i] == 1) {
+                if(i > 1 && clothes[i - 1] == -1) {
+                    clothes[i]--;
+                    clothes[i - 1]++;
+                } else if(i < n && clothes[i + 1] == -1) {
+                    clothes[i]--;
+                    clothes[i + 1]++;
+                }
             }
         }
         
         int answer = 0;
         for(int i = 1; i <= n; i++) {
-            if(students[i]) {
+            if(clothes[i] >= 0) {
                 answer++;
             }
         }
