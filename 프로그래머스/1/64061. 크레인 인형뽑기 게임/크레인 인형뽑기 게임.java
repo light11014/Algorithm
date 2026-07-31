@@ -3,31 +3,33 @@ import java.util.*;
 class Solution {
     public int solution(int[][] board, int[] moves) {
         int answer = 0;
-        
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         
         for(int move : moves) {
-            int idx = move - 1;
+            int index = 0;
             
-            for(int i = 0; i < board.length; i++) {
-                if(board[i][idx] == 0)
-                    continue;
-                else {
-                    int doll = board[i][idx];
-                    board[i][idx] = 0;
-                    if(!stack.isEmpty()) {
-                        if(stack.peek() == doll) {
-                            stack.pop();
-                            answer += 2;
-                            break;
-                        }
-                    }
-                    stack.push(doll);
-                    break;
+            while(index < board.length && board[index][move - 1] == 0) {
+                index++;
+            }
+            
+            if(index == board.length) continue;
+            
+            stack.push(board[index][move - 1]);
+            board[index][move - 1] = 0;
+            
+            if(stack.size() >= 2) {
+                int first = stack.pop();
+                int second = stack.pop();
+                
+                if(first == second) {
+                    answer += 2;
+                } else {
+                    stack.push(second);
+                    stack.push(first);
                 }
             }
+
         }
-        
         
         return answer;
     }
