@@ -2,40 +2,47 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int N, int[] stages) {
-        // 1. 실패율 구하기
-        // 1-1. 스테이지 별로 몇명있는지 구하기
-        int[] current = new int[N+2];
-        for(int i = 0; i < stages.length; i++) {
-            current[stages[i]]++;
+        
+        int[] failed = new int [N + 2];
+        
+        for(int stage : stages) {
+            failed[stage]++;
         }
         
-        // 1-2. 스테이지에 도달한 사람 구하기(누적)
-        double total = stages.length;
+        double[] failureRates = new double[N + 1];
+        int players = stages.length;
         
-        // 1-3. 계산하기
-        HashMap<Integer, Double> map = new HashMap<>();
-        for(int i = 1; i <= N; i++) {
-            if(current[i] == 0) {
-                map.put(i, 0.);
-            } else {
-                map.put(i, current[i]/total);
-                total -= current[i];
+        for(int stage = 1; stage <= N; stage++) {
+            if(players == 0) {
+                failureRates[stage] = 0;
+            } else{
+                failureRates[stage] = (double) failed[stage] / players;
             }
+            
+            players -= failed[stage];
         }
         
-        // 2. 실패율을 기준으로 스테이지 정렬하기
-        List<Map.Entry<Integer, Double>> list = new ArrayList<>(map.entrySet());
+        Integer[] stageNumbers = new Integer[N];
         
-        Collections.sort(list, (o1, o2)-> Double.compare(o2.getValue(), o1.getValue()));
-        
-        int[] answer = new int[list.size()];
-        for(int i = 0; i < answer.length; i++) {
-            answer[i] = list.get(i).getKey();
+        for (int i = 0; i < N; i++) {
+            stageNumbers[i] = i + 1;
         }
-        return answer;
         
-        // return map.entrySet().stream()
-        //     .sorted((o1, o2)-> Double.compare(o2.getValue(), o1.getValue()))
-        //     .mapToInt(HashMap.Entry::getKey).toArray();
+        Arrays.sort(stageNumbers, (a, b) -> {
+            int compare = Double.compare(
+                    failureRates[b],
+                    failureRates[a]
+            );
+
+            if (compare != 0) {
+                return compare;
+            }
+
+            return Integer.compare(a, b);
+        });
+        
+        return Arrays.stream(stageNumbers)
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
 }
