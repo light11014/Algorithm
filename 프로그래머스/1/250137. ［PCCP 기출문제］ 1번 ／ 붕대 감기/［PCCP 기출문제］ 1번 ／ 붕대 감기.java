@@ -1,20 +1,16 @@
 import java.util.*;
 
 class Solution {
-    public int solution(int[] bandage, int health, int[][] attacks) {
-        Map<Integer, Integer> map = new HashMap<>();
-        
-        for(int[] attack : attacks) {
-            map.put(attack[0], attack[1]);
-        }
-        
+    public int solution(int[] bandage, int health, int[][] attacks) {       
         int currentHealth = health;
         int combo = 0;
+        int attackIndex = 0;
         
         for(int t = 1; t <= attacks[attacks.length - 1][0]; t++) {
-            if(map.containsKey(t)) {
-                currentHealth -= map.get(t);
+            if(t == attacks[attackIndex][0]) {
+                currentHealth -= attacks[attackIndex][1];
                 combo = 0;
+                attackIndex++;
                 
                 if(currentHealth <= 0) {
                     return -1;
