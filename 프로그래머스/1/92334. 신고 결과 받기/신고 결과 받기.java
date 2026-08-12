@@ -10,13 +10,13 @@ class Solution {
             indexMap.put(id_list[i], i);
         }
         
-        List<String>[] list = new ArrayList[N];
+        Set<String>[] reported = new HashSet[N];
         
         for(int i = 0; i < N; i++) {
-            list[i] = new ArrayList<>();
+            reported[i] = new HashSet<>();
         }
         
-        Map<String, Integer> countMap = new HashMap<>();
+        Map<String, Integer> reportCount = new HashMap<>();
         
         for(String r : report) {
             String[] split = r.split(" ");
@@ -24,26 +24,21 @@ class Solution {
             String from = split[0];
             String to = split[1];
             
-            int idx = indexMap.get(from);
+            int fromIdx = indexMap.get(from);
             
-            if(!list[idx].contains(to)) {
-                countMap.put(to, countMap.getOrDefault(to, 0) + 1);
-                list[idx].add(to);
+            if(reported[fromIdx].add(to)) {
+                reportCount.put(to, reportCount.getOrDefault(to, 0) + 1);
             } 
         }
         
-        int[] answer = new int[id_list.length];
+        int[] answer = new int[N];
         
-        for(int i = 0; i < answer.length; i++) {
-            int count = 0;
-            
-            for(String name : list[i]) {
-                if(countMap.getOrDefault(name, 0) >= k) {
-                    count++;
+        for(int i = 0; i < answer.length; i++) {          
+            for(String reportedUser : reported[i]) {
+                if(reportCount.getOrDefault(reportedUser, 0) >= k) {
+                    answer[i]++;
                 }
             }
-            
-            answer[i] = count;
         }
         
         return answer;
