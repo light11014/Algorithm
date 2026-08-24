@@ -1,36 +1,41 @@
 class Solution {
     public String solution(String video_len, String pos, String op_start, String op_end, String[] commands) {
-        int posMin = getMinutes(pos);
-        int videoMin = getMinutes(video_len);
         
-        int startMin = getMinutes(op_start);
-        int endMin = getMinutes(op_end);
+        int videoSec = toSeconds(video_len);
+        int posSec = toSeconds(pos);
+        int opStartSec = toSeconds(op_start);
+        int opEndSec = toSeconds(op_end);
         
-        if(startMin <= posMin && posMin <= endMin) {
-            posMin = endMin;
-        }
-        
+        posSec = skipOpening(posSec, opStartSec, opEndSec);
+
         for(String command : commands) {
             if(command.equals("prev")) {
-                posMin = Math.max(0, posMin - 10);
+                posSec = Math.max(0, posSec - 10);
             } else {
-                posMin = Math.min(videoMin, posMin + 10);
+                posSec = Math.min(videoSec, posSec + 10);
             }
             
-            if(startMin <= posMin && posMin <= endMin) {
-                posMin = endMin;
-            }
+            posSec = skipOpening(posSec, opStartSec, opEndSec);
         }
         
-        return toTimeString(posMin);
+        return toTimeString(posSec);
     }
     
-    private int getMinutes(String time) {
+    private int toSeconds(String time) {
         String[] split = time.split(":");
+        
         return Integer.parseInt(split[0]) * 60 + Integer.parseInt(split[1]);
     }
     
-    private String toTimeString(int min) {
-        return String.format("%02d:%02d", min / 60, min % 60); 
+    private int skipOpening(int pos, int start, int end) {
+        if (start <= pos && pos <= end) {
+            return end;
+        }
+
+        return pos;
+    }
+    
+    private String toTimeString(int seconds) {
+        return String.format("%02d:%02d", seconds / 60, seconds % 60); 
     }
 }
