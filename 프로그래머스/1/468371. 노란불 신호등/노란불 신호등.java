@@ -1,39 +1,47 @@
 class Solution {
     public int solution(int[][] signals) { 
-        int count = 1;
+        int limit = 1;
         
-        int[][] signalArr = new int[signals.length][];
-        
-        for(int i = 0; i < signals.length; i++) {
-            int[] signal = signals[i];
-            int total = signal[0] + signal[1] + signal[2];
-            count *= total;
-            
-            signalArr[i] = new int[total];
-            
-            int j = 0;
-            for(int s = 0; s < 3; s++) {
-                for(int c = 0; c < signal[s]; c++) {
-                    signalArr[i][j++] = s;
-                }
-            } 
+        for(int[] signal : signals) {
+            int cycle = signal[0] + signal[1] + signal[2];
+            limit = lcm(limit, cycle);
         }
-           
-        for(int i = 0; i < count; i++) {
-            boolean off = true;
+    
+        for(int time = 1; time <= limit; time++) {
+            boolean allYellow = true;
             
-            for(int j = 0; j < signalArr.length; j++) {
-                if(signalArr[j][i % signalArr[j].length] != 1) {
-                    off = false;
+            for (int[] signal : signals) {
+                int green = signal[0];
+                int yellow = signal[1];
+                int cycle = signal[0] + signal[1] + signal[2];
+
+                int current = (time - 1) % cycle;
+
+                if (current < green || current >= green + yellow) {
+                    allYellow = false;
                     break;
                 }
             }
             
-            if(off) {
-                return i + 1;
+            if (allYellow) {
+                return time;
             }
         }
         
         return -1;
+    }
+    
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = a % b;
+            a = b;
+            b = temp;
+        }
+
+        return a;
+    }
+    
+    private int lcm(int a, int b) {
+        return a / gcd(a, b) * b;
     }
 }
