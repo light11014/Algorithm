@@ -3,13 +3,13 @@ class Solution {
         int open = 0;
         
         for(char c : s.toCharArray()) {
-            if(c == '(') {
+            if(c == '(') 
                 open++;
-            } else if(c == ')' && open > 0) {
+            else
                 open--;
-            } else {
+            
+            if(open < 0)
                 return false;
-            }
         }
 
         return open == 0;
