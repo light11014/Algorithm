@@ -4,5 +4,5 @@
 using namespace std;
 
 int solution(double flo) {
-    return (int)flo;
+    return static_cast<int>(flo);
 }
