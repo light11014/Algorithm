@@ -3,8 +3,6 @@
 
 using namespace std;
 
-size_t pos = 0;
-
 string solution(vector<string> str_list, string ex) {
     string answer = "";
     
