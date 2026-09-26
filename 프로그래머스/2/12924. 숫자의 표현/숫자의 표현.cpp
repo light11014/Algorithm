@@ -4,20 +4,27 @@
 using namespace std;
 
 int solution(int n) {
-    int answer = 1;
+    int answer = 0;
     
-    for(int start = 1; start <= n / 2; start++) {
-        int sum = 0;
-        for(int i = start; i <= n; i++) {
-            sum += i;
+    int left = 1;
+    int right = 1;
+    int sum = 1;
+    
+    while(left <= n) {
+        if(sum == n) {
+            answer++;
             
-            if(sum == n) {
-                answer++;
-                break;
-            } else if (sum > n) {
-                break;
-            }
+            sum -= left;
+            left++;
+        } else if(sum < n) {
+            right++;
+            sum += right;
+        } else {
+            sum -= left;
+            left++;
         }
     }
+    
+    
     return answer;
 }
