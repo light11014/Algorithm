@@ -16,31 +16,18 @@ string toBinary(int n) {
 }
 
 vector<int> solution(string s) {
-    vector<int> answer;
-    
-    int count = 0;
+    int convert_count = 0;
     int deleted_zero = 0;
-    while(true) {
-        count++;
-        int one = 0;
+    
+    while(s != "1") {
+        int one = count(s.begin(), s.end(), '1');
         
-        for(char& c : s) {
-            if(c == '1') {
-               one++; 
-            }
-        }
-        
-        deleted_zero += s.length() - one;
-        
-        if(one == 1) {
-            answer.push_back(count);
-            answer.push_back(deleted_zero);
-            break;
-        }
+        deleted_zero += s.size() - one;
+        convert_count++;
         
         s = toBinary(one);
     }
-    
-    return answer;
+ 
+    return {convert_count, deleted_zero};
 }
 
