@@ -10,7 +10,7 @@ vector<int> solution(vector<int> progresses, vector<int> speeds) {
         q.push({progresses[i], speeds[i]});
     }
     
-    for(int day = 1; day <= 100; day++) {
+    while(!q.empty()) {
         int q_size = q.size();
         
         for(int i = 0; i < q_size; i++) {
