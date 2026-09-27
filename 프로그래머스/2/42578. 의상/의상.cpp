@@ -5,13 +5,13 @@ using namespace std;
 int solution(vector<vector<string>> clothes) {
     unordered_map<string, int> m;
     
-    for(vector<string> cloth : clothes) {
+    for(const auto& cloth : clothes) {
         m[cloth[1]]++;
     }
     
     int answer = 1;
     
-    for(auto p : m) {
+    for(const auto& p : m) {
         answer *= p.second + 1;
     }
     
