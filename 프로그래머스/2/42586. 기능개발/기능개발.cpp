@@ -3,12 +3,13 @@
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
-    vector<int> answer;
     queue<pair<int, int>> q;
     
     for(int i = 0; i < progresses.size(); i++) {
         q.push({progresses[i], speeds[i]});
     }
+    
+    vector<int> answer;
     
     while(!q.empty()) {
         int q_size = q.size();
