@@ -13,13 +13,14 @@ int solution(vector<string> want, vector<int> number, vector<string> discount) {
     }
     
     for(int i = 0; i < discount.size(); i++) {
-        if(i < 10) {
-            discounts[discount[i]]++;
-        } else {
-            discounts[discount[i - 10]]--;
-            discounts[discount[i]]++;
-        }
+        discounts[discount[i]]++;
         
+        if(i < 9) continue;
+        
+        if (i >= 10) {
+            discounts[discount[i - 10]]--;
+        }
+
         bool sign = true;
         
         for(const auto& p : wants) {
