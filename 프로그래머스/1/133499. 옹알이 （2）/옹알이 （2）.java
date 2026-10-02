@@ -1,15 +1,15 @@
 class Solution {
     public int solution(String[] babbling) {
-        String[] b = {"aya", "ye", "woo", "ma"};
-        String[] bb = {"ayaaya", "yeye", "woowoo", "mama"};
-        
         int answer = 0;
         
-        for(String str : babbling) {
+        String[] words = {"aya", "ye", "woo", "ma"};
+        String[] repeatedWords = {"ayaaya", "yeye", "woowoo", "mama"};
+        
+        for(String b : babbling) {
             boolean hasDouble = false;
             
-            for(String bbstr : bb) {
-                if(str.contains(bbstr)) {
+            for(String word : repeatedWords) {
+                if(b.contains(word)) {
                     hasDouble = true;
                     break;
                 }
@@ -17,13 +17,13 @@ class Solution {
             
             if(hasDouble) continue;
             
-            for(String bstr : b) {
-                str = str.replace(bstr, "#");
+            for(String word : words) {
+                b = b.replace(word, "#");
             }
             
-            str = str.replace("#", "");
+            b = b.replace("#", "");
             
-            if(str.isEmpty()) answer++;
+            if(b.isEmpty()) answer++;
         }
         
         return answer;
