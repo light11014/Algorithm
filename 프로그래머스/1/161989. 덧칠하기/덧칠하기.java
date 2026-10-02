@@ -4,7 +4,7 @@ class Solution {
         int end = 0;
         
         for(int cur : section) {
-            if(cur > end) {
+            if(end < cur) {
                 answer++;
                 end = cur + m - 1;
             }
