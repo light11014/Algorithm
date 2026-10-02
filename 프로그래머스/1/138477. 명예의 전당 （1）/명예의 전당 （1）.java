@@ -7,7 +7,7 @@ class Solution {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         
         for(int i = 0; i < answer.length; i++) {
-            pq.add(score[i]);
+            pq.offer(score[i]);
             
             if(pq.size() > k) {
                 pq.poll();
