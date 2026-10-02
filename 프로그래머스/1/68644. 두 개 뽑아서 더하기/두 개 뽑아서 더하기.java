@@ -10,12 +10,6 @@ class Solution {
             }
         }
         
-        int[] answer = new int[set.size()];
-        
-        int i = 0;
-        for(int num : set) {
-            answer[i++] = num;
-        }
-        return answer;
+        return set.stream().mapToInt(i->i).toArray();
     }
 }
