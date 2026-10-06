@@ -4,10 +4,8 @@ class Solution {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
         
         Queue<Integer> queue = new ArrayDeque<>();
-        Map<Integer, Integer> map = new HashMap<>();
         
         for(int i = 0; i < priorities.length; i++) {
-            map.put(i, priorities[i]);
             pq.offer(priorities[i]);
             queue.offer(i);
         }
@@ -17,7 +15,7 @@ class Solution {
         while(!queue.isEmpty()) {
             int cur = queue.poll();
             
-            if(map.get(cur) == pq.peek()) {
+            if(priorities[cur] == pq.peek()) {
                 pq.poll(); 
                 
                 if(cur == location) {
