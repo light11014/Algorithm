@@ -10,10 +10,8 @@ class Solution {
         for(int i = 0; i < arr.length; i++) {
             int num = Integer.parseInt(arr[i]);
             
-            if(num < min)
-                min = num;
-            if(num > max)
-                max = num;
+            min = Math.min(min, num);
+            max = Math.max(max, num);
         }
         
         return min + " " + max;
