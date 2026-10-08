@@ -2,21 +2,23 @@ class Solution {
     public int solution(int n) {
         int answer = 0;
         
-        for(int start = 1; start <= n; start++) {
-            int sum = 0;
+        int left = 1;
+        int right = 1;
+        int sum = 1;
+        
+        while(right <= n) {
             
-            for(int num = start; num <= n; num++) {
-                sum += num;
-                
-                if(sum == n) {
-                    answer++;
-                    break;
-                }
-                
-                if(sum > n) {
-                    break;
-                }
+            if(sum == n) {
+                answer++;
             }
+            
+            if(sum >= n) {
+                sum -= left;
+                left++;
+            } else {
+                right++;
+                sum += right;
+            } 
         }
         
         return answer;
