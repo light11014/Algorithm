@@ -11,7 +11,6 @@ class Solution {
         Set<String> set = new HashSet<>();
         
         int[] pos = {0, 0};
-        int answer = 0;
         
         for(char dir : dirs.toCharArray()) {
             Integer[] offset = map.get(dir);
@@ -21,19 +20,17 @@ class Solution {
             
             if(nx < -5 || nx > 5 || ny < -5 || ny > 5) continue;
             
-            if(set.add(makeRoad(pos[0], pos[1], nx, ny))) {
-                answer++;
-            }
+            set.add(makeRoad(pos[0], pos[1], nx, ny));
             
             pos[0] = nx;
             pos[1] = ny;
         }
         
-        return answer;
+        return set.size();
     }
     
     private String makeRoad(int sx, int sy, int nx, int ny) {
-        if(sx < nx || (sx == nx && sy <= ny)) {
+        if(sx < nx || (sx == nx && sy < ny)) {
             return sx + " " + sy + " " + nx + " " + ny;
         } else {
             return nx + " " + ny + " " + sx + " " + sy;   
