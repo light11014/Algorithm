@@ -2,18 +2,18 @@ import java.util.*;
 
 class Solution {
     public int solution(String dirs) {
-        Map<Character, Integer[]> map = new HashMap<>();
-        map.put('U', new Integer[]{-1, 0});
-        map.put('D', new Integer[]{1, 0});
-        map.put('R', new Integer[]{0, 1});
-        map.put('L', new Integer[]{0, -1});
+        Map<Character, int[]> map = new HashMap<>();
+        map.put('U', new int[]{-1, 0});
+        map.put('D', new int[]{1, 0});
+        map.put('R', new int[]{0, 1});
+        map.put('L', new int[]{0, -1});
         
         Set<String> set = new HashSet<>();
         
         int[] pos = {0, 0};
         
         for(char dir : dirs.toCharArray()) {
-            Integer[] offset = map.get(dir);
+            int[] offset = map.get(dir);
             
             int nx = pos[0] + offset[0];
             int ny = pos[1] + offset[1];
