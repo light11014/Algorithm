@@ -1,44 +1,42 @@
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 class Solution {
     public int solution(String dirs) {
-        HashMap<String, int[]> map = new HashMap<>(); 
-        map.put("U", new int[]{0, 1});
-        map.put("D", new int[]{0, -1});
-        map.put("R", new int[]{1, 0});
-        map.put("L", new int[]{-1, 0});
+        Map<Character, Integer[]> map = new HashMap<>();
+        map.put('U', new Integer[]{-1, 0});
+        map.put('D', new Integer[]{1, 0});
+        map.put('R', new Integer[]{0, 1});
+        map.put('L', new Integer[]{0, -1});
+        
+        Set<String> set = new HashSet<>();
         
         int[] pos = {0, 0};
+        int answer = 0;
         
-        // 1. dirs 하나씩 탐색하기
-        // 1-1. 넘어가는 위치인지 확인
-        // 1-2. 중복이 있는지 확인(양방향)
-        HashSet<String> set = new HashSet<>();
-        for(String d : dirs.split("")) {
-            int[] offset = map.get(d);
+        for(char dir : dirs.toCharArray()) {
+            Integer[] offset = map.get(dir);
             
-            if(isValid(pos, offset)) {
-                int nx = pos[0] + offset[0];
-                int ny = pos[1] + offset[1];
-                
-                set.add(pos[0] + " " + pos[1] + " " + nx + " " + ny);
-                set.add(nx + " " + ny + " " + pos[0] + " " + pos[1]);
-                
-                pos[0] = nx;
-                pos[1] = ny;
+            int nx = pos[0] + offset[0];
+            int ny = pos[1] + offset[1];
+            
+            if(nx < -5 || nx > 5 || ny < -5 || ny > 5) continue;
+            
+            if(set.add(makeRoad(pos[0], pos[1], nx, ny))) {
+                answer++;
             }
+            
+            pos[0] = nx;
+            pos[1] = ny;
         }
         
-        // 1-3. 방향 무시
-        return set.size()/2;
+        return answer;
     }
     
-    private boolean isValid(int[] player, int[] offset) {
-        for(int i = 0; i < 2; i++) {
-            if(-5 > player[i] + offset[i] || player[i] + offset[i] > 5) 
-                return false;
+    private String makeRoad(int sx, int sy, int nx, int ny) {
+        if(sx < nx || (sx == nx && sy <= ny)) {
+            return sx + " " + sy + " " + nx + " " + ny;
+        } else {
+            return nx + " " + ny + " " + sx + " " + sy;   
         }
-        return true;
     }
 }
