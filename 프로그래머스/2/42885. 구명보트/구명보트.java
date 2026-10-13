@@ -5,15 +5,15 @@ class Solution {
         Arrays.sort(people);
         
         int answer = 0;
+        int s = 0;
+        int e = people.length - 1;
         
-        for(int s = 0, e = people.length - 1; s <= e; e--) {
-            int left = limit;
-            
-            left -= people[e];
-            
-            if(left >= people[s]) {
+        while(s <= e) {
+            if(people[s] + people[e] <= limit) {
                 s++;
             }
+            
+            e--;
             answer++;
         }
         
