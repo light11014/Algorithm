@@ -1,34 +1,29 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {        
-        Deque<int[]> queue = new ArrayDeque<>();
+    public int[] solution(int[] progresses, int[] speeds) {   
+        List<Integer> answer = new ArrayList<>();
+
+        int deployDay = 0;
+        int count = 0;
         
         for(int i = 0; i < progresses.length; i++) {
-            queue.offer(new int[] {progresses[i], speeds[i]});
-        }
-        
-        List<Integer> list = new ArrayList<>();
+            int day = (100 - progresses[i] + speeds[i] - 1) / speeds[i];
+            
+            if(day > deployDay) {
+                if (count > 0) {
+                    answer.add(count);
+                }
 
-        while(!queue.isEmpty()) {
-            
-            int size = queue.size();
-            
-            for(int i = 0; i < size; i++) {
-                int[] front = queue.pop();
-                queue.offer(new int[] {front[0] + front[1], front[1]});
-            }
-            
-            int count = 0;
-            
-            while(!queue.isEmpty() && queue.peek()[0] >= 100) {
-                queue.pop();
+                deployDay = day;
+                count = 1;
+            } else {
                 count++;
             }
-            
-            if(count > 0) list.add(count);
         }
         
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        answer.add(count);
+        
+        return answer.stream().mapToInt(Integer::intValue).toArray();
     }
 }
