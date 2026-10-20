@@ -8,25 +8,32 @@ class Solution {
         int N = maps.length;
         int M = maps[0].length;
         
+        boolean[][] visited = new boolean[N][M];
         ArrayDeque<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{0, 0});
-        maps[0][0] = 1;
+        
+        queue.add(new int[]{0, 0, 1});
+        visited[0][0] = true;
         
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
             
+            int x = cur[0];
+            int y = cur[1];
+            int dist = cur[2];
+            
+            if (x == N - 1 && y == M - 1) {
+                return dist;
+            }
+            
             for(int i = 0; i < 4; i++) {
-                int nx = cur[0] + dx[i];
-                int ny = cur[1] + dy[i];
+                int nx = x + dx[i];
+                int ny = y + dy[i];
                 
-                if(0 > nx || nx >= N || 0 > ny || ny >= M || maps[nx][ny] != 1) continue;
+                if(0 > nx || nx >= N || 0 > ny || ny >= M) continue;
+                if(maps[nx][ny] == 0 || visited[nx][ny]) continue;
                 
-                maps[nx][ny] = maps[cur[0]][cur[1]] + 1;
-                
-                if(nx == N - 1 && ny == M - 1)
-                    return maps[nx][ny];
-                
-                queue.add(new int[]{nx, ny});
+                visited[nx][ny] = true;
+                queue.add(new int[]{nx, ny, dist + 1});
             }
         }
 
