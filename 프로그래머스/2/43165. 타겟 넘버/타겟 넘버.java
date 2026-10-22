@@ -15,7 +15,6 @@ class Solution {
         }
         
         dfs(numbers, target, index + 1, sum + numbers[index]);
-        
         dfs(numbers, target, index + 1, sum - numbers[index]);
     }
 }
