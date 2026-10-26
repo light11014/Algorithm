@@ -2,6 +2,7 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] numbers) {
         Deque<Integer> stack = new ArrayDeque<>();
+        
         int[] answer = new int[numbers.length];
         Arrays.fill(answer, -1);
         
