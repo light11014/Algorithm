@@ -1,33 +1,50 @@
 import java.util.*;
+
 class Solution {
     public int solution(String str1, String str2) {
-        Map<String,Integer> map1 = new HashMap<>();
-        Map<String,Integer> map2 = new HashMap<>();
-        
-        int total = 0;
-        for(int i = 0; i < str1.length() - 1; i++) {
-            String e = str1.substring(i, i+2).toLowerCase();
-            
-            if('a' <= e.charAt(0) && e.charAt(0) <= 'z' && 'a' <= e.charAt(1) && e.charAt(1) <= 'z') {
-                map1.put(e, map1.getOrDefault(e, 0) + 1);
-                total++;
-            }
-                
-        }
-        
-        for(int i = 0; i < str2.length() - 1; i++) {
-            String e = str2.substring(i, i+2).toLowerCase();;
-            if('a' <= e.charAt(0) && e.charAt(0) <= 'z' && 'a' <= e.charAt(1) && e.charAt(1) <= 'z') {
-                map2.put(e, map2.getOrDefault(e, 0) + 1);
-                total++;
-            }
-        }
-         
-        int interact = 0;
-        for(String key : map1.keySet()) {
-            interact += Math.min(map1.get(key), map2.getOrDefault(key, 0));
+        Map<String, Integer> map1 = makeMultiSet(str1);
+        Map<String, Integer> map2 = makeMultiSet(str2);
+
+        int intersection = 0;
+        int union = 0;
+
+        Set<String> keys = new HashSet<>();
+        keys.addAll(map1.keySet());
+        keys.addAll(map2.keySet());
+
+        for (String key : keys) {
+            int count1 = map1.getOrDefault(key, 0);
+            int count2 = map2.getOrDefault(key, 0);
+
+            intersection += Math.min(count1, count2);
+            union += Math.max(count1, count2);
         }
 
-        return total - interact == 0 ? 65536 : interact * 65536 / (total - interact) ;
+        return union == 0
+                ? 65536
+                : intersection * 65536 / union;
+    }
+
+    private Map<String, Integer> makeMultiSet(String str) {
+        Map<String, Integer> map = new HashMap<>();
+        str = str.toLowerCase();
+
+        for (int i = 0; i < str.length() - 1; i++) {
+            char first = str.charAt(i);
+            char second = str.charAt(i + 1);
+
+            if (!isAlphabet(first) || !isAlphabet(second)) {
+                continue;
+            }
+
+            String element = str.substring(i, i + 2);
+            map.put(element, map.getOrDefault(element, 0) + 1);
+        }
+
+        return map;
+    }
+
+    private boolean isAlphabet(char c) {
+        return 'a' <= c && c <= 'z';
     }
 }
