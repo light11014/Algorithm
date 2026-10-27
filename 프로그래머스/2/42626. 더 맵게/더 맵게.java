@@ -17,6 +17,6 @@ class Solution {
             count++;
         }
 
-        return pq.poll() >= K ? count : -1;
+        return pq.peek() >= K ? count : -1;
     }
 }
