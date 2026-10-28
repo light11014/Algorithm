@@ -1,25 +1,17 @@
-import java.util.*;
-
 class Solution {
     public String solution(int n, int t, int m, int p) {
-       
+        StringBuilder game = new StringBuilder();
         
-        List<Character> list = new ArrayList<>();
-        
-        for(int num = 0; list.size() < t * m; num++) {
-            String str = Integer.toString(num, n).toUpperCase();
-            
-            for(char c : str.toCharArray()) {
-                list.add(c);
-            }
+        for (int num = 0; game.length() < t * m; num++) {
+            game.append(Integer.toString(num, n).toUpperCase());
         }
         
-        StringBuilder sb = new StringBuilder();
-        
-        for(int i = p - 1; i < list.size() && sb.length() < t; i += m) {
-            sb.append(list.get(i));
+        StringBuilder answer = new StringBuilder();
+
+        for (int i = p - 1; answer.length() < t; i += m) {
+            answer.append(game.charAt(i));
         }
         
-        return sb.toString();
+        return answer.toString();
     }
 }
