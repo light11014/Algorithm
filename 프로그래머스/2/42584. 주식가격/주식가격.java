@@ -4,24 +4,30 @@ class Solution {
     public int[] solution(int[] prices) {
         int[] answer = new int[prices.length];
         
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
-        stack.push(0);
+        Deque<Integer> queue = new ArrayDeque<>();
         
-        for(int i = 1; i < prices.length; i++) {
-            while(!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
-                // 가격이 떨어짐
-                int j = stack.pop();
-                answer[j] = i - j;
+        for(int i = 0; i < prices.length; i++) {
+            int curPrice = prices[i];
+            
+            int n = queue.size();
+            for(int j = 0; j < n; j++) {
+                int idx = queue.poll();
+                
+                if(curPrice < prices[idx]) {
+                    answer[idx] = i - idx;
+                } else {
+                    queue.add(idx);
+                }
             }
             
-            stack.push(i);
+            queue.add(i);  
         }
         
-        while(!stack.isEmpty()) {
-            int j = stack.pop();
-            answer[j] = prices.length - 1 - j;
+        while(!queue.isEmpty()) {
+            int idx = queue.poll();
+            answer[idx] = prices.length - 1 - idx;
         }
-        
+    
         return answer;
     }
 }
