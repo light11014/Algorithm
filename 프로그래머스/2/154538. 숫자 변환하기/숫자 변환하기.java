@@ -2,8 +2,6 @@ import java.util.*;
 
 class Solution {
     public int solution(int x, int y, int n) {
-        int answer = 0;
-        
         if(x == y) return 0;
         
         boolean[] visited = new boolean[y + 1];
