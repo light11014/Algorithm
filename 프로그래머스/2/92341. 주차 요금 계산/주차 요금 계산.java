@@ -26,19 +26,17 @@ class Solution {
             timeMap.put(car, timeMap.getOrDefault(car, 0) + diff(entry.getValue(), "23:59"));
         }
         
-        List<Integer> times = new ArrayList<>(timeMap.values());
-        int[] answer = new int[times.size()];
+        int[] answer = new int[timeMap.size()];
+        int idx = 0;
         
-        for(int i = 0; i < answer.length; i++) {
-            int time = times.get(i);
-            
+        for(int time : timeMap.values()) {
             if(time <= fees[0]) {
-                answer[i] = fees[1];
+                answer[idx++] = fees[1];
             } else {
-                answer[i] = fees[1] + (time - fees[0] + fees[2] - 1) / fees[2] * fees[3];      
+                answer[idx++] = fees[1] + (time - fees[0] + fees[2] - 1) / fees[2] * fees[3];      
             }
         }
-        
+
         return answer;
     }
     
