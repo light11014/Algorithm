@@ -1,14 +1,14 @@
 class Solution {
     public int solution(int n) {
-        long[] dp = new long[n + 1];
-        
-        dp[1] = 1;
-        dp[2] = 2;
+        long prev2 = 1;
+        long prev1 = 2;
         
         for(int i = 3; i <= n; i++) {
-            dp[i] = (dp[i - 1] + dp[i - 2]) % 1_000_000_007;
+            long cur = (prev1 + prev2) % 1_000_000_007;
+            prev2 = prev1;
+            prev1 = cur;
         }
         
-        return (int)dp[n];
+        return (int) prev1;
     }
 }
