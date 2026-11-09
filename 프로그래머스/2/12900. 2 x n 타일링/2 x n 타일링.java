@@ -1,5 +1,7 @@
 class Solution {
     public int solution(int n) {
+        if (n == 1) return 1;
+
         long prev2 = 1;
         long prev1 = 2;
         
