@@ -5,9 +5,11 @@ class Solution {
         Arrays.sort(files, (a, b) -> {
             String[] parsedA = parse(a);
             String[] parsedB = parse(b);
-           
-            if(!parsedA[0].equals(parsedB[0])) {
-               return parsedA[0].compareTo(parsedB[0]);
+            
+            int headCompare = parsedA[0].compareTo(parsedB[0]);
+            
+            if(headCompare != 0) {
+               return headCompare;
             } 
             
             int numberA = Integer.parseInt(parsedA[1]);
@@ -20,23 +22,21 @@ class Solution {
     }
     
     private String[] parse(String str) {
-        String[] result = new String[3];
-        
-        int end = 0;
-        while(end < str.length() && !Character.isDigit(str.charAt(end))) {
-            end++;
+        int numberStart = 0;
+        while(numberStart < str.length() 
+              && !Character.isDigit(str.charAt(numberStart))) {
+            numberStart++;
         }
         
-        result[0] = end == 0? "" : str.substring(0, end).toLowerCase();
+        int numberEnd = numberStart;
         
-        int start = end;
-        while(end < str.length() && Character.isDigit(str.charAt(end))) {
-            end++;
+        while(numberEnd < str.length() && Character.isDigit(str.charAt(numberEnd))) {
+            numberEnd++;
         }
         
-        result[1] = start == end ? "" : str.substring(start, end);
-        result[2] = end == str.length()? "" : str.substring(end, str.length());
+        String head = str.substring(0, numberStart).toLowerCase();
+        String number = str.substring(numberStart, numberEnd);
         
-        return result;
+        return new String[] {head, number};
     }
 }
