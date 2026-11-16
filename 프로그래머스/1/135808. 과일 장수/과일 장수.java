@@ -6,9 +6,9 @@ class Solution {
         
         Arrays.sort(score);
         
-        for(int i = score.length - m; i >= 0; i -= m) {
+        for(int i = score.length - m; i >= 0; i -= m)
             answer += score[i] * m;
-        }
+
         
         return answer;
     }
