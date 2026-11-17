@@ -2,11 +2,8 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] arr) {
-        int N = arr.length;
-        
-        if(N == 1) {
+        if(arr.length == 1)
             return new int[] {-1};
-        }
         
         List<Integer> list = new ArrayList<>();
         
