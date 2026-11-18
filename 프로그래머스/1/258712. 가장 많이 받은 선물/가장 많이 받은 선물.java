@@ -6,9 +6,8 @@ class Solution {
         
         Map<String, Integer> idxMap = new HashMap<>();
         
-        for(int i = 0; i < N; i++) {
+        for(int i = 0; i < N; i++)
             idxMap.put(friends[i], i);
-        }
         
         int[] score = new int[N];
         int[][] record = new int[N][N];
@@ -44,8 +43,12 @@ class Solution {
             }
         }
         
-        Arrays.sort(count);
+        int answer = 0;
         
-        return count[N-1];
+        for(int c : count) {
+            answer = Math.max(c, answer);
+        }
+        
+        return answer;
     }
 }
