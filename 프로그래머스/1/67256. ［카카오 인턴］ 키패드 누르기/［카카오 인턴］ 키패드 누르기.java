@@ -2,66 +2,44 @@ class Solution {
     public String solution(int[] numbers, String hand) {
         StringBuilder answer = new StringBuilder();
         
-        int[] left = {3, 0};
-        int[] right = {3, 2};
+        int left = 10;
+        int right = 12;
         
         for(int num : numbers) {
+            if(num == 0) {
+                num = 11;
+            } 
             
-            if(num == 1 || num == 4 || num == 7) {
-                left[0] = num / 3;
-                left[1] = 0;
+            if(num % 3 == 1) {
                 answer.append("L");
-                continue;
-            }
-            
-            if(num == 3 || num == 6 || num == 9) {
-                right[0] = (num - 1) / 3;
-                right[1] = 2;
+                left = num;
+            } else if(num % 3 == 0) {
                 answer.append("R");
-                continue;
-            }
-            
-            int leftDist = getDistance(left, num);
-            int rightDist = getDistance(right, num);
-            
-            if(leftDist == rightDist) {
-                if(hand.equals("left")) {
-                    left[0] = num == 0? 3 : num / 3;
-                    left[1] = 1;
-                    answer.append("L");
-                } else {
-                    right[0] = num == 0? 3 : num / 3;
-                    right[1] = 1;
-                    answer.append("R");
-                }
-            } else if(leftDist < rightDist) {
-                left[0] = num == 0? 3 : num / 3;
-                left[1] = 1;
-                answer.append("L");
+                right = num;
             } else {
-                answer.append("R");
-                right[0] = num == 0? 3 : num / 3;
-                right[1] = 1;
+                int leftDist = getDistance(left, num);
+                int rightDist = getDistance(right, num);
+                
+                if(leftDist < rightDist || 
+                   (leftDist == rightDist && hand.equals("left"))) {
+                    answer.append("L");
+                    left = num;
+                } else {
+                    answer.append("R");
+                    right = num;
+                }
             }
-            
-        }
-        
+        }     
         return answer.toString();
     }
     
-    private int getDistance(int[] hand, int target) {
-        int result = Math.abs(hand[1] - 1);
+    private int getDistance(int from, int to) {
+        int fromRow = (from - 1) / 3;
+        int fromCol = (from - 1) % 3;
         
-        if(target == 2) {
-            result += hand[0];
-        } else if(target == 5) {
-            result += Math.abs(hand[0] - 1);
-        } else if(target == 8) {
-            result += Math.abs(hand[0] - 2);
-        } else {
-            result += Math.abs(hand[0] - 3);
-        }
+        int toRow = (to - 1) / 3;
+        int toCol = (to - 1) % 3;
         
-        return result;
+        return Math.abs(fromRow - toRow) + Math.abs(fromCol - toCol);
     }
 }
