@@ -3,6 +3,7 @@ import java.util.*;
 class Solution {
     public int[][] solution(int[][] data, String ext, int val_ext, String sort_by) {
         Map<String, Integer> map = new HashMap<>();
+        
         map.put("code", 0);
         map.put("date", 1);
         map.put("maximum", 2);
