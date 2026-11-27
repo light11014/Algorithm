@@ -5,7 +5,7 @@ class Solution {
         int left = 0;
         int right = 1;
         int sum = sequence[0];
-        int minLength = Integer.MAX_VALUE;
+        int minLength = sequence.length + 1;
         
         while(left < sequence.length) {
             if(sum == k && right - left < minLength) {
